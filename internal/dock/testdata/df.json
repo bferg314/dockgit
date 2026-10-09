@@ -1,0 +1,100 @@
+{
+ "Volumes": [
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "com.docker.volume.anonymous=",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/7e2c6d93dab40e51731d450d18cb7d51816561137f819c3ac340dd0954b40515/_data",
+   "Name": "7e2c6d93dab40e51731d450d18cb7d51816561137f819c3ac340dd0954b40515",
+   "Scope": "local",
+   "Size": "0B",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "com.docker.compose.config-hash=bf60ff0598f8d73f37de261ec641d4c5c83753cfc7f6c92b160e780374c6548c,com.docker.compose.project=calliope-poker,com.docker.compose.version=5.5.1,com.docker.compose.volume=pgdata",
+   "Links": "1",
+   "Mountpoint": "/var/lib/docker/volumes/calliope-poker_pgdata/_data",
+   "Name": "calliope-poker_pgdata",
+   "Scope": "local",
+   "Size": "194MB",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "com.docker.compose.config-hash=aac2cbe42efed35ed0e1b0bc3e80b66a0b7ab3ab2b282ab95d372225f20eb1d4,com.docker.compose.project=calliope-poker,com.docker.compose.version=5.5.1,com.docker.compose.volume=redisdata",
+   "Links": "1",
+   "Mountpoint": "/var/lib/docker/volumes/calliope-poker_redisdata/_data",
+   "Name": "calliope-poker_redisdata",
+   "Scope": "local",
+   "Size": "52.6MB",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/hearthlog-linux-playwright-22.04/_data",
+   "Name": "hearthlog-linux-playwright-22.04",
+   "Scope": "local",
+   "Size": "0B",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/hearthlog-linux-playwright-24.04/_data",
+   "Name": "hearthlog-linux-playwright-24.04",
+   "Scope": "local",
+   "Size": "995.2MB",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/hearthlog-linux-work-22.04/_data",
+   "Name": "hearthlog-linux-work-22.04",
+   "Scope": "local",
+   "Size": "2.109GB",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/hearthlog-linux-work-24.04/_data",
+   "Name": "hearthlog-linux-work-24.04",
+   "Scope": "local",
+   "Size": "512.9MB",
+   "Status": "N/A"
+  },
+  {
+   "Availability": "N/A",
+   "Driver": "local",
+   "Group": "N/A",
+   "Labels": "",
+   "Links": "0",
+   "Mountpoint": "/var/lib/docker/volumes/hearthlog-linux-cargo/_data",
+   "Name": "hearthlog-linux-cargo",
+   "Scope": "local",
+   "Size": "238.7MB",
+   "Status": "N/A"
+  }
+ ]
+}

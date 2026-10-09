@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1137" height="568" viewBox="0 0 1137 568">
+<rect width="100%" height="100%" rx="8" fill="#18181B"/>
+<g font-family="Cascadia Mono, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="14" xml:space="preserve">
+<rect x="274.4" y="14.0" width="8.4" height="18" fill="#A78BFA"/>
+<rect x="282.8" y="14.0" width="75.6" height="18" fill="#A78BFA"/>
+<rect x="358.4" y="14.0" width="8.4" height="18" fill="#A78BFA"/>
+<text x="22.4" y="27.5" fill="#A78BFA" font-weight="bold" textLength="75.6" lengthAdjust="spacingAndGlyphs">◆ dockgit</text>
+<text x="123.2" y="27.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">Docker 8</text>
+<text x="215.6" y="27.5" fill="#A1A1AA" textLength="42.0" lengthAdjust="spacingAndGlyphs">Repos</text>
+<text x="282.8" y="27.5" fill="#1E1B2E" font-weight="bold" textLength="75.6" lengthAdjust="spacingAndGlyphs">Compose 8</text>
+<text x="383.6" y="27.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">Settings</text>
+<text x="929.6" y="27.5" fill="#A1A1AA" textLength="184.8" lengthAdjust="spacingAndGlyphs">desktop-linux · 29.8.2</text>
+<text x="14.0" y="45.5" fill="#3F3F46" textLength="1108.8" lengthAdjust="spacingAndGlyphs">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</text>
+<text x="30.8" y="63.5" fill="#A1A1AA" font-weight="bold" textLength="42.0" lengthAdjust="spacingAndGlyphs">STACK</text>
+<text x="249.2" y="63.5" fill="#A1A1AA" font-weight="bold" textLength="42.0" lengthAdjust="spacingAndGlyphs">STATE</text>
+<text x="383.6" y="63.5" fill="#A1A1AA" font-weight="bold" textLength="67.2" lengthAdjust="spacingAndGlyphs">SERVICES</text>
+<text x="484.4" y="63.5" fill="#A1A1AA" font-weight="bold" textLength="42.0" lengthAdjust="spacingAndGlyphs">NOTES</text>
+<text x="686.0" y="63.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="63.5" fill="#A78BFA" font-weight="bold" textLength="168.0" lengthAdjust="spacingAndGlyphs">old/services/web.yml</text>
+<text x="30.8" y="81.5" fill="#A78BFA" font-weight="bold" textLength="67.2" lengthAdjust="spacingAndGlyphs">composes</text>
+<text x="114.8" y="81.5" fill="#3F3F46" textLength="84.0" lengthAdjust="spacingAndGlyphs">~\composes</text>
+<text x="215.6" y="81.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">8 stacks</text>
+<text x="299.6" y="81.5" fill="#F87171" font-weight="bold" textLength="16.8" lengthAdjust="spacingAndGlyphs">✗2</text>
+<text x="324.8" y="81.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">· ! doctor</text>
+<text x="686.0" y="81.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="81.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">○ down</text>
+<text x="770.0" y="81.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">web.yml</text>
+<text x="47.6" y="99.5" fill="#A1A1AA" textLength="109.2" lengthAdjust="spacingAndGlyphs">old/services/</text>
+<text x="156.8" y="99.5" fill="#E4E4E7" textLength="75.6" lengthAdjust="spacingAndGlyphs">proxy.yml</text>
+<text x="249.2" y="99.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">○ down</text>
+<text x="383.6" y="99.5" fill="#A1A1AA" textLength="42.0" lengthAdjust="spacingAndGlyphs">proxy</text>
+<text x="484.4" y="99.5" fill="#FBBF24" textLength="16.8" lengthAdjust="spacingAndGlyphs">▲1</text>
+<text x="686.0" y="99.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="14.0" y="117.5" fill="#A78BFA" font-weight="bold" textLength="8.4" lengthAdjust="spacingAndGlyphs">▌</text>
+<text x="47.6" y="117.5" fill="#A1A1AA" textLength="109.2" lengthAdjust="spacingAndGlyphs">old/services/</text>
+<text x="156.8" y="117.5" fill="#A78BFA" font-weight="bold" textLength="58.8" lengthAdjust="spacingAndGlyphs">web.yml</text>
+<text x="249.2" y="117.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">○ down</text>
+<text x="383.6" y="117.5" fill="#A1A1AA" textLength="25.2" lengthAdjust="spacingAndGlyphs">web</text>
+<text x="484.4" y="117.5" fill="#F87171" font-weight="bold" textLength="16.8" lengthAdjust="spacingAndGlyphs">✗1</text>
+<text x="509.6" y="117.5" fill="#FBBF24" textLength="16.8" lengthAdjust="spacingAndGlyphs">▲1</text>
+<text x="686.0" y="117.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="117.5" fill="#A1A1AA" font-weight="bold" textLength="67.2" lengthAdjust="spacingAndGlyphs">SERVICES</text>
+<text x="47.6" y="135.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="135.5" fill="#E4E4E7" textLength="42.0" lengthAdjust="spacingAndGlyphs">clock</text>
+<text x="249.2" y="135.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 1/1</text>
+<text x="383.6" y="135.5" fill="#A1A1AA" textLength="42.0" lengthAdjust="spacingAndGlyphs">clock</text>
+<text x="484.4" y="135.5" fill="#A1A1AA" textLength="151.2" lengthAdjust="spacingAndGlyphs">Wall clock web app</text>
+<text x="686.0" y="135.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="135.5" fill="#E4E4E7" textLength="25.2" lengthAdjust="spacingAndGlyphs">web</text>
+<text x="744.8" y="135.5" fill="#A1A1AA" textLength="100.8" lengthAdjust="spacingAndGlyphs">nginx:latest</text>
+<text x="47.6" y="153.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="153.5" fill="#E4E4E7" textLength="50.4" lengthAdjust="spacingAndGlyphs">dockge</text>
+<text x="249.2" y="153.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 1/1</text>
+<text x="383.6" y="153.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">dockge</text>
+<text x="484.4" y="153.5" fill="#A1A1AA" textLength="193.2" lengthAdjust="spacingAndGlyphs">Web UI for these stacks</text>
+<text x="686.0" y="153.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="719.6" y="153.5" fill="#A1A1AA" textLength="218.4" lengthAdjust="spacingAndGlyphs">network_mode service:proxy</text>
+<text x="47.6" y="171.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="171.5" fill="#E4E4E7" textLength="67.2" lengthAdjust="spacingAndGlyphs">homepage</text>
+<text x="249.2" y="171.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 1/1</text>
+<text x="383.6" y="171.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">homepage</text>
+<text x="484.4" y="171.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">Start page</text>
+<text x="686.0" y="171.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="47.6" y="189.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="189.5" fill="#E4E4E7" textLength="84.0" lengthAdjust="spacingAndGlyphs">monitoring</text>
+<text x="249.2" y="189.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 2/2</text>
+<text x="383.6" y="189.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">grafana, …</text>
+<text x="484.4" y="189.5" fill="#FBBF24" textLength="58.8" lengthAdjust="spacingAndGlyphs">1 unset</text>
+<text x="551.6" y="189.5" fill="#FBBF24" textLength="16.8" lengthAdjust="spacingAndGlyphs">▲1</text>
+<text x="686.0" y="189.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="189.5" fill="#A1A1AA" font-weight="bold" textLength="75.6" lengthAdjust="spacingAndGlyphs">ENV FILES</text>
+<text x="47.6" y="207.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="207.5" fill="#E4E4E7" textLength="42.0" lengthAdjust="spacingAndGlyphs">notes</text>
+<text x="249.2" y="207.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 2/2</text>
+<text x="383.6" y="207.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">app, db</text>
+<text x="484.4" y="207.5" fill="#FBBF24" textLength="58.8" lengthAdjust="spacingAndGlyphs">1 unset</text>
+<text x="686.0" y="207.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="207.5" fill="#A1A1AA" textLength="8.4" lengthAdjust="spacingAndGlyphs">–</text>
+<text x="719.6" y="207.5" fill="#E4E4E7" textLength="142.8" lengthAdjust="spacingAndGlyphs">old/services/.env</text>
+<text x="47.6" y="225.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">stacks/</text>
+<text x="106.4" y="225.5" fill="#E4E4E7" textLength="92.4" lengthAdjust="spacingAndGlyphs">uptime-kuma</text>
+<text x="249.2" y="225.5" fill="#4ADE80" textLength="67.2" lengthAdjust="spacingAndGlyphs">● up 1/1</text>
+<text x="383.6" y="225.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">uptime-ku…</text>
+<text x="484.4" y="225.5" fill="#7DD3FC" textLength="75.6" lengthAdjust="spacingAndGlyphs">↑1 update</text>
+<text x="686.0" y="225.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="686.0" y="243.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="243.5" fill="#A1A1AA" font-weight="bold" textLength="50.4" lengthAdjust="spacingAndGlyphs">DOCTOR</text>
+<text x="686.0" y="261.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="261.5" fill="#F87171" font-weight="bold" textLength="8.4" lengthAdjust="spacingAndGlyphs">✗</text>
+<text x="719.6" y="261.5" fill="#E4E4E7" textLength="394.8" lengthAdjust="spacingAndGlyphs">web uses network_mode service:proxy from anoth…</text>
+<text x="686.0" y="279.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="719.6" y="279.5" fill="#A1A1AA" textLength="394.8" lengthAdjust="spacingAndGlyphs">→ Put both in one stack, so they start (and st…</text>
+<text x="686.0" y="297.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="297.5" fill="#FBBF24" textLength="8.4" lengthAdjust="spacingAndGlyphs">▲</text>
+<text x="719.6" y="297.5" fill="#E4E4E7" textLength="394.8" lengthAdjust="spacingAndGlyphs">2 compose files share this folder, so compose …</text>
+<text x="686.0" y="315.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="719.6" y="315.5" fill="#A1A1AA" textLength="394.8" lengthAdjust="spacingAndGlyphs">→ Give each stack its own folder with one comp…</text>
+<text x="686.0" y="333.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="333.5" fill="#A1A1AA" textLength="8.4" lengthAdjust="spacingAndGlyphs">·</text>
+<text x="719.6" y="333.5" fill="#E4E4E7" textLength="201.6" lengthAdjust="spacingAndGlyphs">sets container_name: web</text>
+<text x="686.0" y="351.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="719.6" y="351.5" fill="#A1A1AA" textLength="394.8" lengthAdjust="spacingAndGlyphs">→ Drop container_name unless something looks a…</text>
+<text x="686.0" y="369.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="369.5" fill="#A1A1AA" textLength="8.4" lengthAdjust="spacingAndGlyphs">·</text>
+<text x="719.6" y="369.5" fill="#E4E4E7" textLength="226.8" lengthAdjust="spacingAndGlyphs">no pinned version for nginx</text>
+<text x="686.0" y="387.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="719.6" y="387.5" fill="#A1A1AA" textLength="394.8" lengthAdjust="spacingAndGlyphs">→ Pin a version (e.g. nginx:1.2.3); an update …</text>
+<text x="686.0" y="405.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="686.0" y="423.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="423.5" fill="#A1A1AA" font-weight="bold" textLength="33.6" lengthAdjust="spacingAndGlyphs">FILE</text>
+<text x="686.0" y="441.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="441.5" fill="#A1A1AA" textLength="33.6" lengthAdjust="spacingAndGlyphs">path</text>
+<text x="786.8" y="441.5" fill="#E4E4E7" textLength="260.4" lengthAdjust="spacingAndGlyphs">~\composes\old\services\web.yml</text>
+<text x="686.0" y="459.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="459.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">project</text>
+<text x="786.8" y="459.5" fill="#E4E4E7" textLength="67.2" lengthAdjust="spacingAndGlyphs">services</text>
+<text x="686.0" y="477.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="702.8" y="477.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">edited</text>
+<text x="786.8" y="477.5" fill="#E4E4E7" textLength="58.8" lengthAdjust="spacingAndGlyphs">1mo ago</text>
+<text x="686.0" y="495.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="686.0" y="513.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<text x="686.0" y="531.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="14.0" y="536.0" width="8.4" height="18" fill="#4ADE80"/>
+<rect x="22.4" y="536.0" width="58.8" height="18" fill="#4ADE80"/>
+<rect x="81.2" y="536.0" width="8.4" height="18" fill="#4ADE80"/>
+<rect x="89.6" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="98.0" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="106.4" y="536.0" width="260.4" height="18" fill="#27272A"/>
+<rect x="366.8" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="375.2" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="383.6" y="536.0" width="462.0" height="18" fill="#27272A"/>
+<rect x="845.6" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="854.0" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="862.4" y="536.0" width="84.0" height="18" fill="#27272A"/>
+<rect x="946.4" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="954.8" y="536.0" width="84.0" height="18" fill="#27272A"/>
+<rect x="1038.8" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="1047.2" y="536.0" width="8.4" height="18" fill="#27272A"/>
+<rect x="1055.6" y="536.0" width="8.4" height="18" fill="#4ADE80"/>
+<rect x="1064.0" y="536.0" width="50.4" height="18" fill="#4ADE80"/>
+<rect x="1114.4" y="536.0" width="8.4" height="18" fill="#4ADE80"/>
+<text x="22.4" y="549.5" fill="#1E1B2E" font-weight="bold" textLength="58.8" lengthAdjust="spacingAndGlyphs">COMPOSE</text>
+<text x="106.4" y="549.5" fill="#E4E4E7" textLength="260.4" lengthAdjust="spacingAndGlyphs">~\composes\old\services\web.yml</text>
+<text x="862.4" y="549.5" fill="#4ADE80" textLength="84.0" lengthAdjust="spacingAndGlyphs">●8 running</text>
+<text x="954.8" y="549.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">○1 stopped</text>
+<text x="1064.0" y="549.5" fill="#1E1B2E" font-weight="bold" textLength="50.4" lengthAdjust="spacingAndGlyphs">? help</text>
+</g>
+</svg>
