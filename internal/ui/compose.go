@@ -655,7 +655,9 @@ func (a *App) rootHeading(r *rootState, sel bool, w int) string {
 	if sel {
 		name = st.selName.Render(r.name)
 	}
-	s := name + "  " + st.faintText.Render(tildePath(r.path))
+	// The path goes last: on a narrow screen (or a long path) it's the
+	// part to lose, not the counts and the doctor hint.
+	s := name
 	switch {
 	case r.err != nil:
 		s += "  " + st.bad.Render(r.err.Error())
@@ -682,6 +684,7 @@ func (a *App) rootHeading(r *rootState, sel bool, w int) string {
 	if n := countSeverity(r.findings, doctor.Problem); n > 0 {
 		s += "  " + st.bad.Render(fmt.Sprintf("✗%d", n)) + st.dim.Render(" · ! doctor")
 	}
+	s += "  " + st.faintText.Render(tildePath(r.path))
 	return fit(s, w)
 }
 

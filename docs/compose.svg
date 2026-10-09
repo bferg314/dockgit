@@ -18,10 +18,10 @@
 <text x="686.0" y="63.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
 <text x="702.8" y="63.5" fill="#A78BFA" font-weight="bold" textLength="168.0" lengthAdjust="spacingAndGlyphs">old/services/web.yml</text>
 <text x="30.8" y="81.5" fill="#A78BFA" font-weight="bold" textLength="67.2" lengthAdjust="spacingAndGlyphs">composes</text>
-<text x="114.8" y="81.5" fill="#3F3F46" textLength="84.0" lengthAdjust="spacingAndGlyphs">~\composes</text>
-<text x="215.6" y="81.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">8 stacks</text>
-<text x="299.6" y="81.5" fill="#F87171" font-weight="bold" textLength="16.8" lengthAdjust="spacingAndGlyphs">✗2</text>
-<text x="324.8" y="81.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">· ! doctor</text>
+<text x="114.8" y="81.5" fill="#A1A1AA" textLength="67.2" lengthAdjust="spacingAndGlyphs">8 stacks</text>
+<text x="198.8" y="81.5" fill="#F87171" font-weight="bold" textLength="16.8" lengthAdjust="spacingAndGlyphs">✗2</text>
+<text x="224.0" y="81.5" fill="#A1A1AA" textLength="84.0" lengthAdjust="spacingAndGlyphs">· ! doctor</text>
+<text x="324.8" y="81.5" fill="#3F3F46" textLength="84.0" lengthAdjust="spacingAndGlyphs">~\composes</text>
 <text x="686.0" y="81.5" fill="#3F3F46" textLength="8.4" lengthAdjust="spacingAndGlyphs">│</text>
 <text x="702.8" y="81.5" fill="#A1A1AA" textLength="50.4" lengthAdjust="spacingAndGlyphs">○ down</text>
 <text x="770.0" y="81.5" fill="#A1A1AA" textLength="58.8" lengthAdjust="spacingAndGlyphs">web.yml</text>
