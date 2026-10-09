@@ -234,11 +234,69 @@ func (r *rootState) findingsFor(s *stackRow) []doctor.Finding {
 	return out
 }
 
-// missingVars are the variables a stack needs (no default) that no env
-// file sets to a value.
-func missingVars(s compose.Stack) []string {
+// override is the stack's compose_overrides entry in the config, if any.
+// Keys are the compose file's path, as written (~ and variables work).
+func (a *App) override(s *stackRow) (config.ComposeOverride, bool) {
+	want := compose.NormPath(s.File)
+	for key, ov := range a.cfg.ComposeOverrides {
+		if compose.NormPath(config.ExpandPath(key)) == want {
+			return ov, true
+		}
+	}
+	return config.ComposeOverride{}, false
+}
+
+// stackEnvFiles are the env files that apply to a stack: an override's
+// list when it has one (relative paths from the file's folder), otherwise
+// the layered root .env, global.env and the stack's .env.
+func (a *App) stackEnvFiles(s *stackRow) []string {
+	ov, ok := a.override(s)
+	if !ok || len(ov.EnvFiles) == 0 {
+		return s.EnvFiles()
+	}
+	files := make([]string, len(ov.EnvFiles))
+	for i, f := range ov.EnvFiles {
+		f = config.ExpandPath(f)
+		if !filepath.IsAbs(f) {
+			f = filepath.Join(s.Dir, f)
+		}
+		files[i] = f
+	}
+	return files
+}
+
+// stackProject is how a stack runs, with its override (a project name,
+// env files) applied.
+func (a *App) stackProject(s *stackRow) compose.Project {
+	p := s.Stack.Project()
+	ov, ok := a.override(s)
+	if !ok {
+		return p
+	}
+	if ov.Project != "" {
+		p.Name = ov.Project
+	}
+	if len(ov.EnvFiles) > 0 {
+		p.EnvFiles = nil
+		for _, f := range a.stackEnvFiles(s) {
+			if _, err := os.Stat(f); err == nil {
+				p.EnvFiles = append(p.EnvFiles, f)
+			}
+		}
+	}
+	return p
+}
+
+// stackMissing are the variables a stack needs that its env files don't set.
+func (a *App) stackMissing(s *stackRow) []string {
+	return missingVars(s.Vars, a.stackEnvFiles(s))
+}
+
+// missingVars are the variables (without a default) that none of the env
+// files sets to a value.
+func missingVars(vars []compose.Var, envFiles []string) []string {
 	set := map[string]bool{}
-	for _, f := range s.EnvFiles() {
+	for _, f := range envFiles {
 		env, _ := compose.ReadEnv(f)
 		for k, v := range env {
 			if v != "" {
@@ -247,7 +305,7 @@ func missingVars(s compose.Stack) []string {
 		}
 	}
 	var out []string
-	for _, v := range s.Vars {
+	for _, v := range vars {
 		if !v.HasDefault && !set[v.Name] {
 			out = append(out, v.Name)
 		}
@@ -258,7 +316,7 @@ func missingVars(s compose.Stack) []string {
 // ---- actions ----
 
 func (a *App) stackStep(s *stackRow, sub ...string) job.Step {
-	p := s.Project()
+	p := a.stackProject(s)
 	return job.Step{Dir: p.Dir, Cmd: "docker", Args: p.Args(sub...)}
 }
 
@@ -299,7 +357,7 @@ func (a *App) stackLogs(s *stackRow) tea.Cmd {
 	if _, total, _ := a.stackContainers(s); total == 0 {
 		return a.notify(0, "%s has no containers: U starts it", s.Name())
 	}
-	p := s.Project()
+	p := a.stackProject(s)
 	a.closeLogs()
 	a.logView = &logView{name: s.Name(), dir: p.Dir,
 		args:   p.Args("logs", "--follow", "--timestamps", "--tail", fmt.Sprint(a.cfg.LogTail)),
@@ -327,12 +385,12 @@ func (a *App) stackGo(s *stackRow) tea.Cmd {
 // listing the variables it needs) and opens it.
 func (a *App) stackEnv(s *stackRow) tea.Cmd {
 	env := filepath.Join(s.Dir, ".env")
-	created, err := ensureEnv(env, filepath.Join(s.Dir, ".env.example"), missingVars(s.Stack))
+	created, err := ensureEnv(env, filepath.Join(s.Dir, ".env.example"), a.stackMissing(s))
 	if err != nil {
 		return a.notify(2, "Creating .env: %v", err)
 	}
 	open := a.openInEditor(s.Name(), env)
-	still := missingVars(s.Stack)
+	still := a.stackMissing(s)
 	switch {
 	case created && len(still) > 0:
 		return tea.Batch(open, a.notify(1, "Created .env for %s · still to set: %s", s.Name(), strings.Join(still, ", ")))
@@ -541,8 +599,11 @@ func (a *App) composeKey(key string) tea.Cmd {
 		return a.removeRoot(r)
 	}
 	if row.s == nil {
-		if key == "u" {
+		switch key {
+		case "u":
 			return a.checkRootUpdates(r)
+		case "y":
+			return a.copyText("path of "+r.name, r.path)
 		}
 		switch key {
 		case "enter":
@@ -581,6 +642,8 @@ func (a *App) composeKey(key string) tea.Cmd {
 			return nil
 		}
 		return a.checkUpdates(s, true)
+	case "y":
+		return a.copyStack(s)
 	case editorKey:
 		return a.openInEditor(s.Name(), s.Dir)
 	case "O":
@@ -743,7 +806,7 @@ func (a *App) stackNotes(r *rootState, s *stackRow) string {
 	if _, _, changed := a.stackContainers(s); changed {
 		notes = append(notes, st.warn.Render("changed since up"))
 	}
-	if missing := missingVars(s.Stack); len(missing) > 0 {
+	if missing := a.stackMissing(s); len(missing) > 0 {
 		notes = append(notes, st.warn.Render(fmt.Sprintf("%d unset", len(missing))))
 	}
 	fs := r.findingsFor(s)
@@ -799,7 +862,7 @@ func (a *App) appendStackDetails(r *rootState, s *stackRow, add func(string), se
 
 	section("ENV FILES")
 	own := filepath.Join(s.Dir, ".env")
-	for _, f := range s.EnvFiles() {
+	for _, f := range a.stackEnvFiles(s) {
 		state := st.ok.Render("✓")
 		if _, err := os.Stat(f); err != nil {
 			// Shared files the repo doesn't use (no example either) are
@@ -812,7 +875,7 @@ func (a *App) appendStackDetails(r *rootState, s *stackRow, add func(string), se
 		rel, _ := filepath.Rel(r.path, f)
 		add(state + " " + st.textS.Render(filepath.ToSlash(rel)))
 	}
-	if missing := missingVars(s.Stack); len(missing) > 0 {
+	if missing := a.stackMissing(s); len(missing) > 0 {
 		add(st.warn.Render("unset: " + strings.Join(missing, ", ")))
 		add(st.dim.Render("E creates or opens .env"))
 	}
@@ -834,7 +897,11 @@ func (a *App) appendStackDetails(r *rootState, s *stackRow, add func(string), se
 
 	section("FILE")
 	kv("path", st.textS.Render(tildePath(s.File)))
-	kv("project", st.textS.Render(projectFor(s.Stack)))
+	project := projectFor(s.Stack)
+	if p := a.stackProject(s); p.Name != "" {
+		project = p.Name + st.dim.Render("  (compose_overrides)")
+	}
+	kv("project", st.textS.Render(project))
 	if !s.ModTime.IsZero() {
 		kv("edited", st.textS.Render(ago(s.ModTime)))
 	}

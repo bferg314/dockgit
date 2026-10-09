@@ -22,7 +22,7 @@ This puts `dockgit` in `$(go env GOPATH)/bin` (`~/go/bin`, or `%USERPROFILE%\go\
 
 ## Tabs
 
-Press `?` anywhere for the keys of the screen you're on, and `1`–`4` (or `tab`) to switch tabs. `/` filters any list.
+Press `?` anywhere for the keys of the screen you're on, and `1`–`4` (or `tab`) to switch tabs. `/` filters any list, and `y` copies something from the selected row (a container's ID or URL, a repo's path, a stack's `up` command, the log lines on screen), over SSH too.
 
 ### Docker
 
@@ -69,7 +69,7 @@ Tools to open things in, build cache cleanup, and display options, saved to the 
 
 ## Build cache cleanup
 
-Builds leave cache behind. By default dockgit prunes it after every build it runs, keeping the newest 10 GB and anything used in the last week, and removes dangling images. Settings switches this to "when the cache passes 20 GB" or off, and changes the sizes. `C` on the Docker tab prunes by hand.
+Builds leave cache behind. By default dockgit prunes it after every build it runs, keeping the newest 10 GB and anything used in the last week, and removes dangling images. Settings switches this to "when the cache passes 20 GB" (checked at startup, after builds and every hour) or off, and changes the sizes. `C` on the Docker tab prunes by hand.
 
 ## Config
 
@@ -99,7 +99,15 @@ args = ["{path}"]
 key = "o"                      # o opens things in this tool
 mode = "detach"                # or "terminal": hands the terminal over until it exits
 enabled = true
+
+# For loose compose files: a project name, and env files to use instead
+# of the layered ones (relative paths are from the file's folder).
+[compose_overrides."~/code/stacks/services/web.yml"]
+project = "web"
+env_files = ["web.env"]
 ```
+
+With no tool bound to `o` (on a server over SSH, say), files open in `$VISUAL` or `$EDITOR`, or else `vi` (Notepad on Windows).
 
 Build records (which branch and commit each repo was built from) are kept in your OS cache folder.
 
@@ -132,7 +140,6 @@ DOCKGIT_SCREENSHOTS=docs go test ./internal/ui -run TestScreenshots
 
 - The update check only knows public images: it asks registries with anonymous tokens.
 - "gone" compose files and "changed since up" are judged on the machine dockgit runs on. For a server, run dockgit there (or over SSH).
-- The threshold cleanup checks at startup and after builds, not on a timer.
 - Changing a setting rewrites `config.toml`, which removes comments you added by hand.
 
 ## License

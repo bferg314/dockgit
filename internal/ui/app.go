@@ -119,7 +119,7 @@ func (a *App) Init() tea.Cmd {
 	if a.docker.statsOn {
 		cmds = append(cmds, a.loadStats())
 	}
-	cmds = append(cmds, a.thresholdCleanup())
+	cmds = append(cmds, a.thresholdCleanup(), cleanupTicker())
 	return tea.Batch(cmds...)
 }
 
@@ -289,6 +289,11 @@ func (a *App) dispatch(msg tea.Msg) tea.Cmd {
 
 	case cleanupMsg:
 		return a.handleCleanup(msg)
+
+	case cleanupTickMsg:
+		// thresholdCleanup does nothing unless the mode is threshold, so
+		// switching modes in Settings takes effect at the next tick.
+		return tea.Batch(a.thresholdCleanup(), cleanupTicker())
 
 	case updatesMsg:
 		return a.handleUpdates(msg)

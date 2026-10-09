@@ -218,6 +218,10 @@ func (a *App) imagesKey(key string) tea.Cmd {
 		t.images.cursor = max(0, n-1)
 	case "r":
 		return a.loadImages()
+	case "y":
+		if img := a.selectedImage(); img != nil {
+			return a.copyText("image "+img.Ref(), img.Ref())
+		}
 	case "x":
 		img := a.selectedImage()
 		if img == nil {
@@ -270,6 +274,10 @@ func (a *App) volumesKey(key string) tea.Cmd {
 		t.volumes.cursor = max(0, n-1)
 	case "r":
 		return a.loadVolumes()
+	case "y":
+		if v := a.selectedVolume(); v != nil {
+			return a.copyText("volume name", v.Name)
+		}
 	case "x":
 		v := a.selectedVolume()
 		if v == nil {

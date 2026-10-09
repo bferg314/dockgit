@@ -25,6 +25,7 @@ func TestLiveDockerUpdates(t *testing.T) {
 	if os.Getenv("DOCKGIT_IT") == "" {
 		t.Skip("set DOCKGIT_IT=1 to run against the real Docker daemon")
 	}
+	t.Setenv("VISUAL", noEditor) // never open a real editor
 	image := os.Getenv("DOCKGIT_IT_IMAGE")
 	if image == "" {
 		image = "busybox"
@@ -77,6 +78,7 @@ func TestLiveDockerActions(t *testing.T) {
 	if os.Getenv("DOCKGIT_IT") == "" {
 		t.Skip("set DOCKGIT_IT=1 to run against the real Docker daemon")
 	}
+	t.Setenv("VISUAL", noEditor) // never open a real editor
 	image := os.Getenv("DOCKGIT_IT_IMAGE")
 	if image == "" {
 		image = "busybox"
@@ -177,6 +179,7 @@ func TestLiveSwitchBranchAndBuild(t *testing.T) {
 	if os.Getenv("DOCKGIT_IT") == "" {
 		t.Skip("set DOCKGIT_IT=1 to run against the real Docker daemon")
 	}
+	t.Setenv("VISUAL", noEditor) // never open a real editor
 	image := os.Getenv("DOCKGIT_IT_IMAGE")
 	if image == "" {
 		image = "busybox"
@@ -271,6 +274,7 @@ func TestLiveComposeStackUp(t *testing.T) {
 	if os.Getenv("DOCKGIT_IT") == "" {
 		t.Skip("set DOCKGIT_IT=1 to run against the real Docker daemon")
 	}
+	t.Setenv("VISUAL", noEditor) // never open a real editor
 	image := os.Getenv("DOCKGIT_IT_IMAGE")
 	if image == "" {
 		image = "busybox"
@@ -376,6 +380,7 @@ func TestLivePortHolderIsStoppedFirst(t *testing.T) {
 	if os.Getenv("DOCKGIT_IT") == "" {
 		t.Skip("set DOCKGIT_IT=1 to run against the real Docker daemon")
 	}
+	t.Setenv("VISUAL", noEditor) // never open a real editor
 	image := os.Getenv("DOCKGIT_IT_IMAGE")
 	if image == "" {
 		image = "busybox"

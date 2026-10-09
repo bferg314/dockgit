@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -86,22 +87,42 @@ func TestWOpensPortAndOOpensEditor(t *testing.T) {
 		t.Fatalf("w opened %v", *opened)
 	}
 
-	// No editor turned on: o says how to get one.
+	// The fixture's project folder isn't on this machine.
 	press(a, 'o')
-	if !strings.Contains(a.toast.text, "No tool is bound to o") {
+	if !strings.Contains(a.toast.text, "app-1 has no project folder") {
 		t.Fatalf("toast: %q", a.toast.text)
 	}
-	// VS Code on but not installed here: o reaches the launcher, which
-	// reports it (the fixture's project folder may not exist, so check
-	// either outcome of the folder lookup).
+
+	// No tool bound to o and no $EDITOR: a folder can't be opened (plain
+	// vi or Notepad can't), and o says how to fix that...
+	dir, file := t.TempDir(), filepath.Join(t.TempDir(), "compose.yaml")
+	os.WriteFile(file, []byte("services: {}\n"), 0o644)
+	t.Setenv("VISUAL", "")
+	t.Setenv("EDITOR", "")
+	a.openInEditor("x", dir)
+	if !strings.Contains(a.toast.text, "No tool is bound to o") || !strings.Contains(a.toast.text, "$EDITOR") {
+		t.Fatalf("folder: %q", a.toast.text)
+	}
+	// ...but a file opens in the default editor (not installed on this
+	// empty PATH, so the launcher says so instead of opening it).
+	a.openInEditor("x", file)
+	if !strings.Contains(a.toast.text, "not found on PATH") {
+		t.Fatalf("file: %q", a.toast.text)
+	}
+	// $EDITOR, with its arguments, is used for files and folders.
+	t.Setenv("EDITOR", noEditor+" --wait")
+	if tool, folders := a.editor(); tool.Cmd != noEditor || tool.Args[0] != "--wait" || !folders || tool.Mode != config.ModeTerminal {
+		t.Fatalf("editor from $EDITOR: %+v %v", tool, folders)
+	}
+	// VS Code bound to o (not installed here): o reaches the launcher.
 	for i := range a.cfg.Tools {
 		if a.cfg.Tools[i].Key == "o" {
 			a.cfg.Tools[i].Enabled = true
 		}
 	}
-	press(a, 'o')
-	if !strings.Contains(a.toast.text, "not found on PATH") && !strings.Contains(a.toast.text, "no project folder") {
-		t.Fatalf("toast: %q", a.toast.text)
+	a.openInEditor("x", dir)
+	if !strings.Contains(a.toast.text, `VS Code: "code" not found on PATH`) {
+		t.Fatalf("bound tool: %q", a.toast.text)
 	}
 	// old-nginx has no compose project.
 	for range 3 {

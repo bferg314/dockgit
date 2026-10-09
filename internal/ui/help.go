@@ -51,12 +51,10 @@ func (a *App) helpContext() string {
 	return tabNames[a.tab]
 }
 
-// editorName names the tool bound to editorKey, for the help.
+// editorName names the editor things open in, for the help.
 func (a *App) editorName() string {
-	if t := a.editor(); t != nil {
-		return t.Name
-	}
-	return "your editor (none bound)"
+	t, _ := a.editor()
+	return t.Name
 }
 
 // helpSections returns the left and right columns for the current screen.
@@ -78,7 +76,7 @@ func (a *App) helpSections(keyW, descW int) (left, right []string) {
 		if a.logView.job == nil {
 			left = append(left, row("r", "follow again after it stopped"))
 		}
-		left = append(left, row("esc / q", "close"), row("?", "this help"))
+		left = append(left, row("y", "copy the lines on screen"), row("esc / q", "close"), row("?", "this help"))
 		return left, nil
 	}
 
@@ -146,6 +144,7 @@ func (a *App) helpSections(keyW, descW int) (left, right []string) {
 			row("e", "shell in the container"),
 			row("w", "open the first port in a browser"),
 			row("g", "go to its repo or stack"),
+			row("y", "copy its ID, name, URL or folder"),
 			row(editorKey, "open its project in "+a.editorName()),
 			row("a / t", "stopped containers · stats column"),
 			row("d", "details: beside · full screen · hidden"),
@@ -167,6 +166,7 @@ func (a *App) helpSections(keyW, descW int) (left, right []string) {
 			row("O", "output of the last job"),
 			row("c", "compose files"),
 			row("g", "go to its containers"),
+			row("y", "copy its path, web page or branch"),
 			row(editorKey+" / w", "open in "+a.editorName()+" · its web page"),
 			row("r", "refresh git status"),
 			"",
@@ -181,6 +181,7 @@ func (a *App) helpSections(keyW, descW int) (left, right []string) {
 			row("E / e", ".env (created from .env.example) · compose file"),
 			row("g", "go to its containers"),
 			row("u", "check for image updates (b bumps them)"),
+			row("y", "copy its file, folder or up command"),
 			row(editorKey, "open its folder in "+a.editorName()),
 			row("d", "details: beside · full screen · hidden"),
 			row("J / K", "scroll details (j/k when full screen)"),

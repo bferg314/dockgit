@@ -201,6 +201,8 @@ func (a *App) logViewKey(msg tea.KeyPressMsg) tea.Cmd {
 		v.follow = true
 	case "?":
 		a.help = helpState{open: true}
+	case "y":
+		return a.copyLogs()
 	case "w":
 		v.wrap = !v.wrap
 	case "t":

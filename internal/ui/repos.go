@@ -432,6 +432,8 @@ func (a *App) reposKey(key string) tea.Cmd {
 		return a.goToContainers(r)
 	case "w":
 		return a.repoWeb(r)
+	case "y":
+		return a.copyRepo(r)
 	case editorKey:
 		return a.openInEditor(r.name, r.path)
 	case "x":

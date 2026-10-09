@@ -37,6 +37,17 @@ func (a *App) afterBuild() tea.Cmd {
 	return nil
 }
 
+// cleanupEvery is how often threshold mode checks the build cache while
+// dockgit runs, besides at startup and after builds.
+const cleanupEvery = time.Hour
+
+type cleanupTickMsg struct{}
+
+// cleanupTicker schedules the next periodic check.
+func cleanupTicker() tea.Cmd {
+	return tea.Tick(cleanupEvery, func(time.Time) tea.Msg { return cleanupTickMsg{} })
+}
+
 // thresholdCleanup prunes when the build cache is bigger than the
 // threshold in Settings.
 func (a *App) thresholdCleanup() tea.Cmd {

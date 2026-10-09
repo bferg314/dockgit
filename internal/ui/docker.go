@@ -480,6 +480,8 @@ func (a *App) dockerKey(key string) tea.Cmd {
 		return a.openPort(c)
 	case "g":
 		return a.goToSource(c)
+	case "y":
+		return a.copyContainer(c)
 	case editorKey:
 		return a.openInEditor(displayName(c), projectDir(c))
 	}

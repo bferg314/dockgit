@@ -5,6 +5,8 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
+	"strings"
 	"time"
 
 	tea "charm.land/bubbletea/v2"
@@ -159,26 +161,45 @@ func projectDir(c *dock.Container) string {
 // editorKey opens things in the tool bound to it: VS Code by default.
 const editorKey = "o"
 
-// editor is the enabled tool bound to editorKey, if any.
-func (a *App) editor() *config.Tool {
+// editor is the tool things open in: the enabled tool bound to editorKey,
+// or else the terminal's editor (see terminalEditor). folders reports
+// whether it can open a folder, not just a file.
+func (a *App) editor() (t config.Tool, folders bool) {
 	for _, t := range a.enabledTools() {
 		if t.Key == editorKey {
-			return &t
+			return t, true
 		}
 	}
-	return nil
+	return terminalEditor()
 }
 
-// openInEditor opens dir in the editor tool.
-func (a *App) openInEditor(name, dir string) tea.Cmd {
-	t := a.editor()
-	switch {
-	case t == nil:
-		return a.notify(2, "No tool is bound to %s: turn on VS Code (or bind one) in Settings", editorKey)
-	case dir == "":
+// terminalEditor is $VISUAL or $EDITOR (which may carry arguments, such
+// as "code --wait"), or else vi (Notepad on Windows): what's there on a
+// server reached over SSH. Only an editor someone chose is trusted with
+// folders; plain vi and Notepad can't open one.
+func terminalEditor() (config.Tool, bool) {
+	for _, env := range []string{"VISUAL", "EDITOR"} {
+		if f := strings.Fields(os.Getenv(env)); len(f) > 0 {
+			return config.Tool{Name: "$" + env + " (" + filepath.Base(f[0]) + ")", Cmd: f[0],
+				Args: append(f[1:], "{path}"), Mode: config.ModeTerminal}, true
+		}
+	}
+	if runtime.GOOS == "windows" {
+		return config.Tool{Name: "Notepad", Cmd: "notepad", Args: []string{"{path}"}, Mode: config.ModeDetach}, false
+	}
+	return config.Tool{Name: "vi", Cmd: "vi", Args: []string{"{path}"}, Mode: config.ModeTerminal}, false
+}
+
+// openInEditor opens a file or folder in the editor.
+func (a *App) openInEditor(name, path string) tea.Cmd {
+	if path == "" {
 		return a.notify(2, "%s has no project folder on this machine", name)
 	}
-	return a.launch(*t, dir)
+	t, folders := a.editor()
+	if fi, err := os.Stat(path); err == nil && fi.IsDir() && !folders {
+		return a.notify(2, "No tool is bound to %s: turn one on in Settings (or set $EDITOR) to open folders", editorKey)
+	}
+	return a.launch(t, path)
 }
 
 // containerPopup lists what can be done to c.

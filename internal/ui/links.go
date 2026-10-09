@@ -196,7 +196,7 @@ func names(cs []*dock.Container) string {
 
 // stackTarget describes a stack for preflight.
 func (a *App) stackTarget(s *stackRow) link.Target {
-	return link.Target{Name: s.Name(), Services: s.Services, Missing: missingVars(s.Stack),
+	return link.Target{Name: s.Name(), Services: s.Services, Missing: a.stackMissing(s),
 		Owns: func(c *dock.Container) bool { return s.Owns(c.ConfigFiles()) }}
 }
 

@@ -35,6 +35,7 @@ func TestScreenshots(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("HOME", home)
 	t.Setenv("USERPROFILE", home)
+	t.Setenv("VISUAL", noEditor)
 	root := filepath.Join(home, "composes")
 	writeFiles(t, root, map[string]string{
 		"stacks/global.env.example":       "PUID=1000\n",

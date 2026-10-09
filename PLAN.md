@@ -246,7 +246,7 @@ mode = "detach"
 enabled = true
 ```
 
-`compose_overrides` (a per-file project name and env files for loose layouts) is read but not applied yet. State that isn't config, the record of each build, lives in the OS cache folder.
+`compose_overrides` gives a loose compose file a project name and the env files to use instead of the layered ones (relative paths from the file's folder). State that isn't config, the record of each build, lives in the OS cache folder.
 
 ## 7. Package layout
 
@@ -270,7 +270,7 @@ internal/
 
 ## 8. Build cache cleanup
 
-After each build dockgit runs (the default), or when `docker system df` reports the build cache above the threshold (checked at startup and after builds), or never:
+After each build dockgit runs (the default), or when `docker system df` reports the build cache above the threshold (checked at startup, after builds and every hour), or never:
 
 1. `docker builder prune -f --reserved-space <keep_storage> --filter until=<older_than>`
 2. if `prune_dangling_images`: `docker image prune -f` (dangling only, never `-a`)

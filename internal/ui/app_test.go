@@ -16,6 +16,13 @@ import (
 
 func testApp(t *testing.T, w int, cfg *config.Config) *App {
 	t.Helper()
+	// Never open a real editor (Notepad, vi) from a test: with no tool
+	// bound to o, files fall back to $VISUAL, which here doesn't exist.
+	t.Setenv("VISUAL", noEditor)
+	// Nor touch the real clipboard.
+	old := writeClipboard
+	writeClipboard = func(string) error { return nil }
+	t.Cleanup(func() { writeClipboard = old })
 	a := New(cfg, filepath.Join(t.TempDir(), "config.toml"), &fakeRunner{})
 	a.Update(tea.WindowSizeMsg{Width: w, Height: 24})
 	return a
@@ -218,3 +225,6 @@ func TestSettingsTabEnablesNewlyInstalledTool(t *testing.T) {
 		t.Fatalf("lazydocker should be enabled with a toast; enabled=%v toast=%q", cfg.Tools[0].Enabled, a.toast.text)
 	}
 }
+
+// noEditor is a command that isn't installed anywhere.
+const noEditor = "dockgit-test-no-editor"
