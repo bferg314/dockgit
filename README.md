@@ -67,6 +67,16 @@ Env files are layered the way [dockge](https://github.com/louislam/dockge) does 
 
 Tools to open things in, build cache cleanup, and display options, saved to the config file as you change them.
 
+## Mouse
+
+Click a tab to switch to it and a row to move to it, on every tab and in every popup. Double-click or right-click a container, repo or stack to open its actions (`enter`). Clicking a filter line puts the cursor in it. In Settings, a click moves to a setting and a click on its checkbox (or `▸`) changes it.
+
+In the actions popup a click runs the action, as its key does; in the confirmation, click `y` or `n`. In the branch picker, double-click a branch to switch to it and build. In the compose file chooser, click a file's `[ ]` to select it. `? help` in the status bar opens help. The wheel moves through lists and scrolls the detail pane, logs and help.
+
+While a popup is open, a click outside it closes it, as `esc` does (a confirmation counts that as no). The exception is a dialog you type into (adding a repo or root, a new stack, a setting's value), so a stray click doesn't throw away what you typed.
+
+While dockgit has the mouse, your terminal's own text selection needs Shift held (Option in macOS Terminal and iTerm2). To turn the mouse off, untick **Mouse** in Settings or set `mouse = false`.
+
 ## Build cache cleanup
 
 Builds leave cache behind. By default dockgit prunes it after every build it runs, keeping the newest 10 GB and anything used in the last week, and removes dangling images. Settings switches this to "when the cache passes 20 GB" (checked at startup, after builds and every hour) or off, and changes the sizes. `C` on the Docker tab prunes by hand.
@@ -78,6 +88,7 @@ On first run dockgit writes `config.toml` to your OS config folder (`%AppData%\d
 ```toml
 compose_roots = ["~/code/composes"]
 log_tail = 500                 # log lines the viewer starts with
+mouse = true                   # clicks and the wheel; Shift+drag still selects text
 
 [cleanup]
 mode = "after_build"           # "off", "after_build" or "threshold"

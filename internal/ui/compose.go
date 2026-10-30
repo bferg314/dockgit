@@ -661,6 +661,7 @@ func (a *App) renderCompose(w, h int) string {
 	st := a.st
 	var lines []string
 	if t.filter.Focused() || t.filter.Value() != "" {
+		a.filterZone(0, w)
 		lines = append(lines, " "+st.key.Render("/")+" "+t.filter.View())
 		h--
 	}
@@ -693,8 +694,15 @@ func (a *App) renderCompose(w, h int) string {
 	}
 	t.offset = max(0, min(t.offset, len(t.view)-h))
 
+	// The wheel moves the list, not the pane: composeKey would scroll a
+	// full-screen pane with up and down.
+	a.addZone(zone{y: len(lines), w: w, h: h, wheel: func(d int) tea.Cmd {
+		t.cursor = max(0, min(len(t.view)-1, t.cursor+d))
+		return nil
+	}})
 	for i := t.offset; i < min(len(t.view), t.offset+h); i++ {
 		row := t.view[i]
+		a.listRow(0, len(lines), w, pickIndex(&t.cursor, i), keyCmd(a.composeKey, "enter"), keyCmd(a.composeKey, "enter"))
 		sel := i == t.cursor
 		marker := "  "
 		if sel {

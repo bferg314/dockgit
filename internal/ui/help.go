@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 	"github.com/charmbracelet/x/ansi"
 )
@@ -87,6 +88,13 @@ func (a *App) helpSections(keyW, descW int) (left, right []string) {
 		row("/", "fuzzy filter (esc clears)"),
 		row("?", "this help"),
 		row("q", "quit"),
+	}
+	if a.cfg.Mouse {
+		left = append(left,
+			row("click", "go there; tab names switch tabs"),
+			row("dbl-click", "enter · right-click: the same"),
+			row("wheel", "move, or scroll details and logs"),
+		)
 	}
 
 	tools := func() []string {
@@ -247,5 +255,8 @@ func (a *App) renderHelp() string {
 	for i, l := range all {
 		all[i] = ansi.Truncate(l, max(20, a.w-6), "…") // box border and padding
 	}
-	return a.boxed(st.box.Padding(0, 2), all)
+	return a.wheelOver(a.boxed(st.box.Padding(0, 2), all), func(d int) tea.Cmd {
+		h.scroll = max(0, min(h.maxScroll, h.scroll+d))
+		return nil
+	})
 }

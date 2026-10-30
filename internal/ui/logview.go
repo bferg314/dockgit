@@ -287,6 +287,7 @@ func (a *App) renderLogView(h int) string {
 		v.top = maxTop
 	}
 	v.top = min(v.top, maxTop)
+	a.addZone(zone{w: a.w, h: h, wheel: func(d int) tea.Cmd { a.logScroll(d * wheelLines); return nil }})
 
 	var lines []string
 	if len(rows) == 0 {

@@ -74,6 +74,7 @@ type App struct {
 	spinning bool
 	help     helpState
 	toast    toast
+	mouse    mouseState
 }
 
 type toast struct {
@@ -353,6 +354,9 @@ func (a *App) dispatch(msg tea.Msg) tea.Cmd {
 
 	case tea.KeyPressMsg:
 		return a.handleKey(msg)
+
+	case tea.MouseMsg:
+		return a.handleMouse(msg)
 	}
 	// Let a focused input receive anything else (pastes, cursor blink etc).
 	return a.updateFilter(msg)
@@ -487,6 +491,9 @@ func (a *App) View() tea.View {
 	v := tea.NewView(a.render())
 	v.AltScreen = true
 	v.WindowTitle = "dockgit"
+	if a.cfg.Mouse {
+		v.MouseMode = tea.MouseModeCellMotion
+	}
 	return v
 }
 
@@ -494,44 +501,67 @@ func (a *App) render() string {
 	if a.w == 0 || a.h == 0 {
 		return ""
 	}
+	var zones []zone
+	a.mouse.rec = &zones
+	defer func() {
+		a.mouse.rec = nil
+		a.mouse.zones = clipZones(zones, a.w, a.h)
+	}()
+
 	header := a.renderHeader()
 	rule := a.st.rule.Render(strings.Repeat("─", a.w))
 
 	bodyH := a.h - chromeLines
-	var body string
-	switch {
-	case a.logView != nil:
-		body = a.renderLogView(bodyH)
-	case a.tab == tabDocker:
-		body = a.renderWithPane(a.renderDocker, bodyH)
-	case a.tab == tabRepos:
-		body = a.renderRepos(a.w, bodyH)
-	case a.tab == tabCompose:
-		body = a.renderWithPane(a.renderCompose, bodyH)
-	case a.tab == tabSettings:
-		body = a.renderSettings(bodyH)
-	}
+	body, bodyZones := a.capture(func() string {
+		switch {
+		case a.logView != nil:
+			return a.renderLogView(bodyH)
+		case a.tab == tabDocker:
+			return a.renderWithPane(a.renderDocker, bodyH)
+		case a.tab == tabRepos:
+			return a.renderRepos(a.w, bodyH)
+		case a.tab == tabCompose:
+			return a.renderWithPane(a.renderCompose, bodyH)
+		case a.tab == tabSettings:
+			return a.renderSettings(bodyH)
+		}
+		return ""
+	})
+	a.addZones(clipZones(bodyZones, a.w, bodyH), 0, 2) // below the header and its rule
 	body = padLines(body, bodyH, a.w)
 
 	base := strings.Join([]string{header, rule, body, a.renderStatusBar()}, "\n")
-	var overlay string
-	switch {
-	case a.help.open:
-		overlay = a.renderHelp()
-	case a.confirmDlg != nil:
-		overlay = a.renderConfirm()
-	case a.dialogOpen():
-		overlay = a.renderDialog()
-	case a.popup != nil:
-		overlay = a.renderPopup()
-	default:
+	overlay, overlayZones := a.capture(func() string {
+		switch {
+		case a.help.open:
+			return a.renderHelp()
+		case a.confirmDlg != nil:
+			return a.renderConfirm()
+		case a.dialogOpen():
+			return a.renderDialog()
+		case a.popup != nil:
+			return a.renderPopup()
+		}
+		return ""
+	})
+	if overlay == "" {
 		return base
 	}
+	full := lipgloss.Height(overlay)
 	overlay = clipBlock(overlay, a.w, a.h)
 	ow, oh := lipgloss.Width(overlay), lipgloss.Height(overlay)
+	if oh < full {
+		// clipBlock dropped lines above the bottom border, so zones below
+		// the kept top would land on the wrong ones.
+		overlayZones = clipZones(overlayZones, ow, oh-1)
+	}
+	ox, oy := max(0, (a.w-ow)/2), max(0, (a.h-oh)/2)
+	// The overlay is modal: what's underneath can't be clicked.
+	zones = a.overlayZones(ox, oy, ow, oh)
+	a.addZones(clipZones(overlayZones, ow, oh), ox, oy)
 	return lipgloss.NewCompositor(
 		lipgloss.NewLayer(base),
-		lipgloss.NewLayer(overlay).X(max(0, (a.w-ow)/2)).Y(max(0, (a.h-oh)/2)).Z(1),
+		lipgloss.NewLayer(overlay).X(ox).Y(oy).Z(1),
 	).Render()
 }
 
@@ -579,6 +609,7 @@ func (a *App) renderHeader() string {
 	}
 	counts := []string{countLabel(running), countLabel(len(a.cfg.Repos)), countLabel(stacks), ""}
 	var tabs []string
+	x := lipgloss.Width(logo) + 1
 	for i, name := range tabNames {
 		label := name
 		if counts[i] != "" {
@@ -589,6 +620,13 @@ func (a *App) renderHeader() string {
 		} else {
 			tabs = append(tabs, a.st.tabOff.Render(label))
 		}
+		tw := lipgloss.Width(tabs[i])
+		// The log viewer has the keyboard until it closes, so the tabs
+		// don't switch under it.
+		if a.logView == nil {
+			a.addZone(zone{x: x, y: 0, w: tw, h: 1, click: func() tea.Cmd { return a.setTab(i) }})
+		}
+		x += tw + 1
 	}
 	left := logo + " " + strings.Join(tabs, " ")
 
