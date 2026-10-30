@@ -469,6 +469,7 @@ func (a *App) renderRepos(w, h int) string {
 	st := a.st
 	var lines []string
 	if t.filter.Focused() || t.filter.Value() != "" {
+		a.filterZone(0, w)
 		lines = append(lines, " "+st.key.Render("/")+" "+t.filter.View())
 		h--
 	}
@@ -506,8 +507,10 @@ func (a *App) renderRepos(w, h int) string {
 	}
 	t.offset = max(0, min(t.offset, len(t.view)-h))
 
+	a.addZone(zone{y: len(lines), w: w, h: h, wheel: wheelKeys(a.reposKey)})
 	for i := t.offset; i < min(len(t.view), t.offset+h); i++ {
 		r := t.view[i]
+		a.listRow(0, len(lines), w, pickIndex(&t.cursor, i), keyCmd(a.reposKey, "enter"), keyCmd(a.reposKey, "enter"))
 		sel := i == t.cursor
 		marker, name := "  ", st.textS.Render(r.name)
 		if sel {

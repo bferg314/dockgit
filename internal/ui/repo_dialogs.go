@@ -356,6 +356,7 @@ func (a *App) renderBranches() string {
 		start := max(0, min(p.cursor-h/2, len(p.view)-h))
 		for i := start; i < min(len(p.view), start+h); i++ {
 			b := p.view[i]
+			a.boxRow(len(lines), w, pickIndex(&p.cursor, i), func() tea.Cmd { return a.branchKey(keyPress("enter")) }, nil)
 			marker, label := "  ", st.textS.Render(b.Name)
 			if i == p.cursor {
 				marker, label = st.marker.Render("▌ "), st.selName.Render(b.Name)
@@ -375,7 +376,7 @@ func (a *App) renderBranches() string {
 		hint = a.spin.View() + " fetching…"
 	}
 	lines = append(lines, "", st.dim.Render(hint))
-	return a.boxed(st.box, lines)
+	return a.wheelOver(a.boxed(st.box, lines), func(d int) tea.Cmd { return a.branchKey(wheelKey(d)) })
 }
 
 // ---- compose file chooser ----
@@ -450,6 +451,9 @@ func (a *App) renderChooser() string {
 	lines := []string{st.boxTitle.Render("Compose files for " + name), "",
 		st.dim.Render("Later files override earlier ones, as with -f."), ""}
 	for i, f := range c.files {
+		pick := pickIndex(&c.cursor, i)
+		a.boxRow(len(lines), lipgloss.Width(f)+6, pick, keyCmd(a.chooserKey, "enter"), nil)
+		a.boxZone(len(lines), 2, zone{w: 3, click: func() tea.Cmd { pick(); return a.chooserKey("space") }})
 		marker, label := "  ", st.textS.Render(f)
 		if i == c.cursor {
 			marker, label = st.marker.Render("▌ "), st.selName.Render(f)
@@ -461,5 +465,5 @@ func (a *App) renderChooser() string {
 		lines = append(lines, marker+box+" "+label)
 	}
 	lines = append(lines, "", st.dim.Render("space selects · enter saves (the highlighted one if none) · esc cancels"))
-	return a.boxed(st.box, lines)
+	return a.wheelOver(a.boxed(st.box, lines), wheelKeys(a.chooserKey))
 }

@@ -216,14 +216,16 @@ func (a *App) paneWidth() int { return max(40, min(70, a.w*2/5)) }
 // renderWithPane draws a tab's list with the detail pane beside it (or
 // instead of it, on narrow terminals).
 func (a *App) renderWithPane(list func(w, h int) string, h int) string {
+	scroll := func(d int) tea.Cmd { a.scrollDetail(d * wheelLines); return nil }
 	switch a.detailLayout() {
 	case layoutSide:
 		pw := a.paneWidth()
 		lw := a.w - pw
-		return lipgloss.JoinHorizontal(lipgloss.Top,
-			padLines(list(lw, h), h, lw),
-			padLines(a.renderDetail(pw, h, true), h, pw))
+		l := padLines(list(lw, h), h, lw)
+		a.addZone(zone{x: lw, w: pw, h: h, wheel: scroll})
+		return lipgloss.JoinHorizontal(lipgloss.Top, l, padLines(a.renderDetail(pw, h, true), h, pw))
 	case layoutFull:
+		a.addZone(zone{w: a.w, h: h, wheel: scroll})
 		return a.renderDetail(a.w, h, false)
 	}
 	return list(a.w, h)

@@ -75,10 +75,15 @@ func (a *App) renderPopup() string {
 		if act.note != "" {
 			line += "  " + st.dim.Render(act.note)
 		}
+		// A click runs the action, as its key does.
+		a.boxZone(len(lines), 0, zone{w: lipgloss.Width(line), click: func() tea.Cmd {
+			p.cursor = i
+			return a.popupKey("enter")
+		}})
 		lines = append(lines, line)
 	}
-	lines = append(lines, "", st.dim.Render("enter or a key runs it · esc closes"))
-	return a.boxed(st.box, lines)
+	lines = append(lines, "", st.dim.Render("enter, a key or a click runs it · esc closes"))
+	return a.wheelOver(a.boxed(st.box, lines), wheelKeys(a.popupKey))
 }
 
 // confirmDialog asks before something that can't be undone.
@@ -120,6 +125,8 @@ func (a *App) renderConfirm() string {
 			lines = append(lines, st.textS.Render(b))
 		}
 	}
+	a.boxZone(len(lines)+1, 0, zone{w: 5, click: keyCmd(a.confirmKey, "y")})
+	a.boxZone(len(lines)+1, 10, zone{w: 4, click: keyCmd(a.confirmKey, "n")})
 	lines = append(lines, "", st.key.Render("y")+st.dim.Render(" yes  ·  ")+st.key.Render("n")+st.dim.Render(" no"))
 	return a.boxed(st.box.BorderForeground(st.red), lines)
 }

@@ -317,8 +317,10 @@ func (a *App) renderImages(w, h int) string {
 		fit(st.colHead.Render("SIZE"), sizeW)+"  "+fit(st.colHead.Render("CREATED"), agoW)+"  "+st.colHead.Render("USED BY"))
 	h--
 	t.images.scroll(h, len(view))
+	a.addZone(zone{y: len(lines), w: w, h: h, wheel: wheelKeys(a.imagesKey)})
 	for i := t.images.offset; i < min(len(view), t.images.offset+h); i++ {
 		img := view[i]
+		a.listRow(0, len(lines), w, pickIndex(&t.images.cursor, i), nil, nil)
 		sel := i == t.images.cursor
 		marker, ref := "  ", st.textS.Render(img.Ref())
 		if sel {
@@ -361,8 +363,10 @@ func (a *App) renderVolumes(w, h int) string {
 	lines = append(lines, "  "+fit(st.colHead.Render("VOLUME"), nameW)+"  "+fit(st.colHead.Render("SIZE"), sizeW)+"  "+st.colHead.Render("USED BY"))
 	h--
 	t.volumes.scroll(h, len(view))
+	a.addZone(zone{y: len(lines), w: w, h: h, wheel: wheelKeys(a.volumesKey)})
 	for i := t.volumes.offset; i < min(len(view), t.volumes.offset+h); i++ {
 		v := view[i]
+		a.listRow(0, len(lines), w, pickIndex(&t.volumes.cursor, i), nil, nil)
 		sel := i == t.volumes.cursor
 		marker, name := "  ", st.textS.Render(v.Name)
 		if sel {
@@ -382,6 +386,7 @@ func (a *App) renderVolumes(w, h int) string {
 func (a *App) filterLine(h int) ([]string, int) {
 	f := &a.docker.filter
 	if f.Focused() || f.Value() != "" {
+		a.filterZone(0, a.w)
 		return []string{" " + a.st.key.Render("/") + " " + f.View()}, h - 1
 	}
 	return nil, h

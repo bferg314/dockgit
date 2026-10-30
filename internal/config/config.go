@@ -90,6 +90,9 @@ type Config struct {
 	// Powerline draws the status bar with arrow separators, which need a
 	// Nerd Font or Powerline-patched font.
 	Powerline bool `toml:"powerline"`
+	// Mouse lets the mouse click, double-click and scroll. While it's on,
+	// selecting text in the terminal needs Shift (Option on macOS).
+	Mouse bool `toml:"mouse"`
 	// ZellijTabs opens terminal tools in a new zellij tab, instead of
 	// suspending dockgit, when dockgit runs inside zellij.
 	ZellijTabs  bool `toml:"zellij_tabs"`
@@ -197,6 +200,7 @@ func Default() *Config {
 	return &Config{
 		Version:            configVersion,
 		ZellijTabs:         true,
+		Mouse:              true,
 		ShowStopped:        true,
 		MaskEnv:            true,
 		LogTail:            500,

@@ -508,6 +508,7 @@ func (a *App) renderContainers(w, h int) string {
 	var lines []string
 
 	if t.filter.Focused() || t.filter.Value() != "" {
+		a.filterZone(0, w)
 		lines = append(lines, " "+st.key.Render("/")+" "+t.filter.View())
 		h--
 	}
@@ -589,12 +590,14 @@ func (a *App) renderContainers(w, h int) string {
 	}
 	t.offset = max(0, min(t.offset, len(t.view)-h))
 
+	a.addZone(zone{y: len(lines), w: w, h: h, wheel: func(d int) tea.Cmd { t.move(d); return nil }})
 	for i := t.offset; i < min(len(t.view), t.offset+h); i++ {
 		r := t.view[i]
 		if r.c == nil {
 			lines = append(lines, a.renderGroupHeading(r, w))
 			continue
 		}
+		a.listRow(0, len(lines), w, pickIndex(&t.cursor, i), keyCmd(a.dockerKey, "enter"), keyCmd(a.dockerKey, "enter"))
 		sel := i == t.cursor
 		marker := "  "
 		if sel {
