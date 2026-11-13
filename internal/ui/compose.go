@@ -334,8 +334,16 @@ func (a *App) stackUp(s *stackRow) tea.Cmd {
 }
 
 func (a *App) stackPullUp(s *stackRow) tea.Cmd {
+	file := s.File
 	return a.preflight(s.Name(), a.stackTarget(s), func() tea.Cmd { return a.stackEnv(s) }, func(pre []job.Step) tea.Cmd {
-		return a.stackJob(s, "Pull and up", append(pre, a.stackStep(s, "pull"), a.stackStep(s, "up", "-d"))...)
+		steps := append(pre, a.stackStep(s, "pull"), a.stackStep(s, "up", "-d"))
+		return a.runJob(&s.job, s.Name(), "Pull and up", steps, func(j *jobState) tea.Cmd {
+			// The stack row may have been rebuilt by a reload while the job ran.
+			if st := a.findStack(file); j.err == nil && st != nil {
+				st.updates = pulled(st.updates)
+			}
+			return nil
+		})
 	})
 }
 

@@ -14,6 +14,7 @@ import (
 	"github.com/bferg314/dockgit/internal/config"
 	"github.com/bferg314/dockgit/internal/dock"
 	"github.com/bferg314/dockgit/internal/registry"
+	"github.com/bferg314/dockgit/internal/updates"
 )
 
 func TestDiskView(t *testing.T) {
@@ -151,4 +152,40 @@ func TestUpdateCheckAndBump(t *testing.T) {
 		t.Errorf("toast: %q", a.toast.text)
 	}
 	_ = s
+}
+
+// After a successful pull and up, a newer image for the same tag is on the
+// machine, so its update note clears. A newer version stays until bumped.
+func TestPullAndUpClearsPulledUpdates(t *testing.T) {
+	for _, fail := range []bool{false, true} {
+		a, root, rec := composeApp(t)
+		writeFiles(t, root, map[string]string{".env": "PUID=1000\n", "stacks/media/plex/.env": "PLEX_CLAIM=x\n"})
+		if fail {
+			rec.fail = "pull"
+		}
+		s := selectStack(t, a, "stacks/media/plex")
+		s.updates = []updates.Result{
+			{Service: "plex", Image: "linuxserver/plex:1.40", State: updates.NewImage},
+			{Service: "web", Image: "nginx:1.26", State: updates.NewVersion, Suggest: "nginx:1.27"},
+		}
+		if !strings.Contains(screen(a), "↑2 updates") {
+			t.Fatalf("before: want ↑2 updates:\n%s", screen(a))
+		}
+		_, cmd := a.Update(tea.KeyPressMsg{Code: 'R', Text: "R"})
+		p := newPump(a)
+		p.run(cmd)
+		p.until(t, 5*time.Second, "pull and up finished", func() bool {
+			st := a.findStack(s.File)
+			return st.job != nil && st.job.done
+		})
+		p.stop()
+		a.logView, a.popup = nil, nil
+		want := "↑1 update"
+		if fail {
+			want = "↑2 updates"
+		}
+		if got := screen(a); !strings.Contains(got, want) {
+			t.Errorf("fail=%v: want %q:\n%s", fail, want, got)
+		}
+	}
 }
