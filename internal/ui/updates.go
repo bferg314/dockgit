@@ -108,6 +108,20 @@ func pending(rs []updates.Result) int {
 	return n
 }
 
+// pulled returns the results after a successful pull: a newer image for
+// the same tag is now on this machine. A newer version stays, since the
+// file still names the old one until it is bumped.
+func pulled(rs []updates.Result) []updates.Result {
+	out := make([]updates.Result, 0, len(rs))
+	for _, r := range rs {
+		if r.State == updates.NewImage || r.State == updates.NotPulled { // pulled now
+			r.State = updates.UpToDate
+		}
+		out = append(out, r)
+	}
+	return out
+}
+
 // updatesPopup shows a stack's results, with bumping and pulling.
 func (a *App) updatesPopup(s *stackRow) *actionPopup {
 	p := &actionPopup{title: "Updates for " + s.Name()}
